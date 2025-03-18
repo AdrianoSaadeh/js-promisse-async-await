@@ -16,7 +16,7 @@ function lerConteudoDoArquivo(arquivo) {
         }
 
         leitor.onerror = () => {
-            reject(`Erro na leitura do arquivo ${arquivo.name}`)
+            reject(`Erro na leitura do arqui ${arquivo.name}`)
         }
 
         leitor.readAsDataURL(arquivo)
