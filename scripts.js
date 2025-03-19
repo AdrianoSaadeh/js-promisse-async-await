@@ -56,3 +56,19 @@ inputUpload.addEventListener("change", async (evento) => {
         }
     }
 });
+
+const inpuTags = document.getElementById("input-tags");
+const listaTags = document.getElementById("lista-tags");
+
+inpuTags.addEventListener("keypress", (evento) => {
+    if (evento.key === "Enter") {
+        evento.preventDefault();
+        const tagTexto = inpuTags.value.trim();
+        if (tagTexto !== "") {
+            const tagNova = document.createElement("li");
+            tagNova.innerHTML = `<p>${tagTexto}</p> <img src="./img/close-black.svg" class="remove-tag">`;
+            listaTags.appendChild(tagNova);
+            inpuTags.value = "";
+        }
+    }
+})
