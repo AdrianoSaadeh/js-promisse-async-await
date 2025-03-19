@@ -71,4 +71,11 @@ inpuTags.addEventListener("keypress", (evento) => {
             inpuTags.value = "";
         }
     }
-})
+});
+
+listaTags.addEventListener("click", (evento) => {
+    if (evento.target.classList.contains("remove-tag")) {
+        const tagASerRemovida = evento.target.parentElement;
+        listaTags.removeChild(tagASerRemovida);
+    }
+});
