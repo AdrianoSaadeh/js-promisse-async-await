@@ -1,5 +1,4 @@
 const uploadBtn = document.getElementById("upload-btn");
-const inputUpload = document.getElementById("image-upload");
 
 uploadBtn.addEventListener("click", () => {
     inputUpload.click();
@@ -7,35 +6,53 @@ uploadBtn.addEventListener("click", () => {
 
 function lerConteudoDoArquivo(arquivo) {
     return new Promise((resolve, reject) => {
+        // Cria um novo leitor de arquivo
         const leitor = new FileReader();
+
+        // Define o que acontece quando a leitura é completada com sucesso
         leitor.onload = () => {
+            // Resolve a Promise com um objeto contendo a URL e o nome do arquivo
             resolve({
                 url: leitor.result,
                 nome: arquivo.name
-            })
-        }
+            });
+        };
 
+        // Define o que acontece em caso de erro na leitura do arquivo
         leitor.onerror = () => {
-            reject(`Erro na leitura do arqui ${arquivo.name}`)
-        }
+            // Rejeita a Promise com uma mensagem de erro personalizada
+            reject(`Erro na leitura do arquivo ${arquivo.name}`);
+        };
 
-        leitor.readAsDataURL(arquivo)
-    })
+        // Inicia a leitura do arquivo como uma URL data (base64)
+        leitor.readAsDataURL(arquivo);
+    });
 }
 
+// Seleciona elementos HTML da página
 const imagemPrincipal = document.querySelector(".main-imagem");
 const nomeDaImagem = document.querySelector(".container-imagem-nome p");
+const inputUpload = document.getElementById("image-upload");
 
+// Adiciona um ouvinte de evento para o input de upload de arquivo
 inputUpload.addEventListener("change", async (evento) => {
+    // Obtém o arquivo selecionado pelo usuário
     const arquivo = evento.target.files[0];
 
+    // Verifica se um arquivo foi selecionado
     if (arquivo) {
         try {
+            // Aguarda a leitura do conteúdo do arquivo
             const conteudoDoArquivo = await lerConteudoDoArquivo(arquivo);
+
+            // Atualiza a imagem principal com a URL do arquivo
             imagemPrincipal.src = conteudoDoArquivo.url;
+
+            // Atualiza o nome da imagem na página
             nomeDaImagem.textContent = conteudoDoArquivo.nome;
         } catch (erro) {
-            console.error("Erro na leitura do arquivo")
+            // Em caso de erro na leitura do arquivo, exibe uma mensagem de erro no console
+            console.error("Erro na leitura do arquivo:", erro);
         }
     }
-})
+});
