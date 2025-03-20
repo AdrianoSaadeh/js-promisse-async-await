@@ -101,3 +101,31 @@ inpuTags.addEventListener("keypress", async (evento) => {
         }
     }
 });
+
+const botaoPublicar = document.querySelector(".botao-publicar");
+
+botaoPublicar.addEventListener("click", async (evento) => {
+    evento.preventDefault();
+
+    const nomeProjeto = document.getElementById("nome").value;
+    const descricaoProjeto = document.getElementById("descricao").value;
+
+    const tagsProjeto = Array.from(listaTags.querySelectorAll("p")).map((tag) => tag.textContent);
+
+    console.log(nomeProjeto);
+    console.log(descricaoProjeto);
+    console.log(tagsProjeto);
+});
+
+async function publicarProjeto(nomeDoProjeto, descricaoProjeto, tagsProjeto) {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            const deuCerto = Math.random() > 0.5;
+            if (deuCerto) {
+                resolve("Projeto publicado com sucesso.");
+            } else {
+                reject("Erro ao publicar o projeto.");
+            }
+        }, 2000)
+    })
+};
