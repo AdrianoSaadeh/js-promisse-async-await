@@ -121,26 +121,6 @@ inpuTags.addEventListener("keypress", async (evento) => {
     }
 });
 
-// Seleciona o botão de publicação do projeto
-const botaoPublicar = document.querySelector(".botao-publicar");
-
-// Adiciona um evento de clique para processar os dados do projeto ao clicar no botão de publicar
-botaoPublicar.addEventListener("click", async (evento) => {
-    evento.preventDefault(); // Impede o comportamento padrão do formulário
-
-    // Obtém os valores do nome e descrição do projeto
-    const nomeProjeto = document.getElementById("nome").value;
-    const descricaoProjeto = document.getElementById("descricao").value;
-
-    // Obtém todas as tags adicionadas pelo usuário
-    const tagsProjeto = Array.from(listaTags.querySelectorAll("p")).map((tag) => tag.textContent);
-
-    // Exibe no console os dados do projeto antes de serem enviados
-    console.log(nomeProjeto);
-    console.log(descricaoProjeto);
-    console.log(tagsProjeto);
-});
-
 // Função que simula a publicação do projeto e retorna sucesso ou erro aleatoriamente
 async function publicarProjeto(nomeDoProjeto, descricaoProjeto, tagsProjeto) {
     return new Promise((resolve, reject) => {
@@ -155,3 +135,52 @@ async function publicarProjeto(nomeDoProjeto, descricaoProjeto, tagsProjeto) {
         }, 2000); // Simula um atraso de 2 segundos na publicação
     });
 }
+
+// Seleciona o botão de publicação do projeto
+const botaoPublicar = document.querySelector(".botao-publicar");
+
+// Adiciona um evento de clique para processar os dados do projeto ao clicar no botão de publicar
+botaoPublicar.addEventListener("click", async (evento) => {
+    evento.preventDefault(); // Impede o comportamento padrão do formulário (evita recarregar a página)
+
+    // Obtém os valores do nome e da descrição do projeto digitados pelo usuário
+    const nomeProjeto = document.getElementById("nome").value;
+    const descricaoProjeto = document.getElementById("descricao").value;
+
+    // Coleta todas as tags adicionadas pelo usuário na lista de tags
+    const tagsProjeto = Array.from(listaTags.querySelectorAll("p")).map((tag) => tag.textContent);
+
+    try {
+        // Tenta publicar o projeto chamando a função assíncrona "publicarProjeto"
+        const resultado = await publicarProjeto(nomeProjeto, descricaoProjeto, tagsProjeto);
+
+        // Se a publicação for bem-sucedida, exibe a mensagem no console e alerta o usuário
+        console.log(resultado);
+        alert('Projeto publicado com sucesso!');
+    } catch (error) {
+        // Caso ocorra um erro, exibe a mensagem no console e alerta o usuário
+        console.log('Erro ao publicar o projeto: ', error);
+        alert('Ocorreu um erro ao publicar o projeto. Tente novamente!');
+    }
+});
+
+// Seleciona o botão de descartar o projeto
+const botaoDescartar = document.querySelector(".botao-descartar");
+
+// Adiciona um evento de clique para limpar os campos do formulário ao descartar o projeto
+botaoDescartar.addEventListener("click", (event) => {
+    event.preventDefault(); // Impede o comportamento padrão do botão dentro do formulário
+
+    // Seleciona o formulário e redefine seus campos para os valores iniciais
+    const formulario = document.querySelector("form");
+    formulario.reset();
+
+    // Restaura a imagem principal para a padrão
+    document.querySelector(".main-imagem").src = "./img/imagem1.png";
+
+    // Restaura o nome da imagem para o valor padrão
+    document.querySelector(".container-imagem-nome p").textContent = "imagem1.png";
+
+    // Remove todas as tags adicionadas à lista de tags
+    document.querySelector(".lista-tags").innerHTML = "";
+});
